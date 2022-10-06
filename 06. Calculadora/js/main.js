@@ -1,4 +1,4 @@
-import * as soma from './services/somar.js'
+import * as operacoes from './services/operacoes.js'
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -9,7 +9,7 @@ inputValor1.addEventListener('change', handleInputValor1Change);
 let valor1;
 function handleInputValor1Change(event) {
     event.target.classList.remove("input-error");
-    valor1 = event.target.value;
+    valor1 = event.target.value.trim();
     console.log(valor1);
 }
 
@@ -19,16 +19,23 @@ inputValor2.addEventListener('change', handleInputValor2Change);
 let valor2;
 function handleInputValor2Change(event) {
     event.target.classList.remove("input-error");
-    valor2 = event.target.value;
+    valor2 = event.target.value.trim();
     console.log(valor2);
 }
 
 const somar = document.getElementById("btn-plus");
-somar.addEventListener('click', handleInputSomarClique);
+somar.addEventListener('click', handleInputClique);
+const multiplicar = document.getElementById("btn-times");
+multiplicar.addEventListener('click', handleInputClique);
 
-const resultadoOperacao = document.getElementById("result-box").innerHTML; // 0
+const resultado = document.getElementById("result-box");
+const resultadoOperacao = document.createElement("p");
+resultadoOperacao.innerHTML = 0;
+resultado.appendChild(resultadoOperacao);
 
-function handleInputSomarClique(event) {
+
+function handleInputClique(event) {
+    event.preventDefault;
     if (isNumber(valor1)) {
         valor1 = Number (valor1);
         
@@ -44,7 +51,25 @@ function handleInputSomarClique(event) {
     }
 
     if (isNumber(valor1) && isNumber(valor2)) {
-        // resultadoOperacao.innerHTML=5;
+        let resultadoF = 0;
+        if (somar) {
+            resultadoF = operacoes.somar(valor1,valor2);
+            resultadoOperacao.innerHTML = resultadoF;
+        } else {
+            resultadoF = operacoes.multiplicar(valor1,valor2);
+            resultadoOperacao.innerHTML = resultadoF;
+        }
     }
 };
+
+const limpa = document.getElementById("btn-clear");
+limpa.addEventListener('click', handleInputClear);
+
+function handleInputClear(event) {
+    inputValor1.classList.remove("input-error");
+    inputValor1.value = "";
+    inputValor2.classList.remove("input-error");
+    inputValor2.value = "";
+    resultadoOperacao.innerHTML = 0;
+}
 
